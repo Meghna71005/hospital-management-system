@@ -12,7 +12,7 @@ def create_app():
 
 app = create_app()  
 from application import models
-#from application.controllers import *        
+from application.controllers import *        
 
 
     

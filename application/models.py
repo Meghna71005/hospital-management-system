@@ -34,7 +34,7 @@ class Patient(db.Model):
     password = db.Column(db.String(), nullable=False)
     type = db.Column(db.String(), nullable=False, default="patient")
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
-    contact = db.Column(db.String())
+    contact = db.Column(db.String(),  unique=True,)
     full_name = db.Column(db.String())
 
     
