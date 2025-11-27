@@ -1,11 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pateint</title>
+  <meta charset="UTF-8">
+  <title>Patients' Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
+<body class="patient-dashboard-page">
+    <div class="bg-overlay"></div>
+  <div class="navbar navbar-full">
+  <div class="navbar-content">
+    <div class="navbar-right">
+      
+      <a class="nav-btn" href="#">edit profile</a>
+      <a class="nav-btn" href="{{ url_for('patient_history_from_dashboard')}}">History</a>
+      
+      <a href="{{ url_for('logout') }}" class="nav-btn logout">Logout</a>
+
+    </div>
+  </div>
+</div>
+  <!-- Welcome + Logo Bar -->
+  <div class="welcome-bar">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" class="dashboard-logo" alt="Patient Logo">
+    <span class="welcome-text">Welcome, <span class="username">{{this_user.username}}</span>!</span>
+  </div>
+  <section class="patient-dashboard-card">
     
+  
+     <div class="dashboard-grid">
+    <div class="departments-section">
+      <h3>Departments</h3>
+      <div class="departments-list">
+        <div class="dept-row">
+          <input class="dept-input" type="text" value="Cardiology" readonly>
+          <button class="view-details-btn">View details</button>
+        </div>
+        <div class="dept-row">
+          <input class="dept-input" type="text" value="Oncology" readonly>
+          <a class="view-details-btn" href="{{ url_for('view_details')}}">View details</a>
+          
+        </div>
+        <div class="dept-row">
+          <input class="dept-input" type="text" value="General" readonly>
+          <button class="view-details-btn">View details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="appointments-section">
+      <h3>Upcoming Appointments</h3>
+      <table class="appointments-table">
+        <thead>
+          <tr>
+            <th>Sr No.</th>
+            <th>Doctor Name</th>
+            <th>Dept</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1001.</td>
+            <td>Dr. Meena</td>
+            <td>Cardiology</td>
+            <td>31/11/2025</td>
+            <td>08 am - 12 pm</td>
+            <td><button class="cancel-btn">cancel</button></td>
+          </tr>
+          <tr>
+            <td>1001.</td>
+            <td>Dr. Rakesh</td>
+            <td>General</td>
+            <td>24/11/2025</td>
+            <td>08 am - 12 pm</td>
+            <td><button class="cancel-btn">cancel</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </section>
 </body>
 </html>

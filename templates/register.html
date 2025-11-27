@@ -7,7 +7,16 @@
   <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
-<body class="register page">
+<body class="register-page">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
   <div class="auth-container">
     <!-- Left: Register form -->
     <div class="auth-form-area">
@@ -38,6 +47,10 @@
           <div class="mb-3">
             <label for="register-password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="register-password" required>
+          </div>
+           <div class="mb-3">
+            <label for="register-confirm-password" class="form-label">Confirm-Password</label>
+            <input type="password" name="confirm-password" class="form-control" id="register-confirm-password" required>
           </div>
           <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>

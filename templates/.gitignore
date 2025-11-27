@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Flask cache
+instance/
+*.code-workspace

@@ -1,0 +1,62 @@
+<!-- Department of Oncology Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View-Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="department-page">
+  <header class="dept-navbar">
+  <div class="nav-left">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="nav-logo">
+    <span class="site-title">Hospital Management System</span>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-btn">History</a>
+    <a href="{{ url_for('logout') }}" class="nav-btn nav-logout">Logout</a>
+  </div>
+</header>
+
+  <div class="dept-main-container">
+  <div class="dept-overview-box">
+    <div class="dept-header">
+      <h2>Department of Oncology</h2>
+    </div>
+    <div class="dept-overview">
+      <h3>Overview</h3>
+      <p>
+        The Oncology Department in a hospital is dedicated to the diagnosis, treatment, and care of patients with cancer. It houses a team of specialized doctors, such as medical oncologists, surgical oncologists, and radiation oncologists, who work together to provide comprehensive cancer care.
+      </p>
+    </div>
+  </div>
+  <div class="doctor-list-box">
+    <h2 style="color: #1977cc;">Doctors' list</h2>
+    <div class="doctor-row">
+      <input type="text" readonly value="Dr. Meena" class="doctor-input">
+      <a href="#" class="doctor-btn avail-btn">check availability</a>
+      <a href="#" class="doctor-btn detail-btn">view details</a>
+    </div>
+    <div class="doctor-row">
+      <input type="text" readonly value="Dr. Sahil" class="doctor-input">
+      <a href="#" class="doctor-btn avail-btn">check availability</a>
+      <a href="#" class="doctor-btn detail-btn">view details</a>
+    </div>
+    <div class="doctor-row">
+      <input type="text" readonly value="Dr.Maenka" class="doctor-input">
+      <a href="#" class="doctor-btn avail-btn">check availability</a>
+      <a href="#" class="doctor-btn detail-btn">view details</a>
+    </div>
+
+      <div class="doctor-row">
+      <input type="text" readonly value="Dr.Shyam" class="doctor-input">
+      <a href="{{ url_for('dr_avail') }}" class="doctor-btn avail-btn">check availability</a>
+      <a href="{{ url_for('dr_detail_card') }}" class="doctor-btn detail-btn">view details</a>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr detail card</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body class="doctor-detail-page">
+   
+  <div class="doctor-detail-card full-width">
+    <div class="doctor-detail-content">
+      <div class="doctor-photo">
+        <img src="static/img/profile_placeholder.png" alt="Doctor photo" />
+      </div>
+      <div class="doctor-info">
+        <h2>Dr. Meena</h2>
+        <div class="doctor-qual">MBBS, DM - Medical Oncology</div>
+        <div class="doctor-role">Medical Oncologist</div>
+        <div class="doctor-exp">20 Years Experience Overall
+          <br><span>(11 years as specialist)</span>
+        </div>
+        <div class="doctor-bio">
+          Dr. Meena is a Medical Oncologist in India and has an experience of 20 years in this field.
+        </div>
+        <div class="doctor-actions">
+             <a href="{{ url_for('dr_avail') }}" class="doctor-btn">check availability</a>
+            <a href="{{ url_for('view_details') }}" class="doctor-btn secondary">Go Back</a>
+          
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

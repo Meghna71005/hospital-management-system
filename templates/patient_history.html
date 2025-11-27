@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient-History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="patient-history-page">
+    <div class="patient-history-card">
+  <div class="history-header">
+    <span>Patient History</span>
+    <a class="back-btn" href="{{ back_url }}">back</a>
+    
+  </div>
+  {%for appointment in all_appointments%}
+  <div class="patient-info">
+    <div>Patient Name: <b>{{this_user.full_name}}</b></div>
+    <div>Doctor's Name: <b>Dr.{{appointment.doctor.full_name}}</b></div>
+    <div>Department: <b>{{appointment.doctor.department.name}}</b></div>
+  </div>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Visit No.</th>
+        <th>Visit Type</th>
+        <th>Tests Done</th>
+        <th>Diagnosis</th>
+        <th>Prescription</th>
+        <th>Medicines</th>
+      </tr>
+    </thead>
+    
+    {%set treat = appointment.treatment %}
+    <tbody>
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{treat.visit_type if treat else '-'}</td>
+        <td>{treat.tests_done if treat else '-'}</td>
+        <td>{treat.diagnosis if treat else '-' }</td>
+        <td>{treat.prescription if treat else '-'}</td>
+        <td>{treact.medicines if treat else '-'}</td>
+      </tr>
+      
+    </tbody>
+
+  </table>
+  {%endfor%}
+</div>
+
+    
+</body>
+</html>

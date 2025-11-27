@@ -848,13 +848,16 @@ h6 {
 # Login- Registration Pages Styling
 --------------------------------------------------------------
 */
-.login-page .auth-container {
+.login-page .auth-container,
+.register-page .auth-container {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
   background: #f1f7fc;
 }
-.login-page .auth-image {
+
+.login-page .auth-image,
+.register-page .auth-image {
   flex: 1;
   background: #f1f7fc;
   display: flex;
@@ -862,14 +865,18 @@ h6 {
   justify-content: center;
   padding: 3rem;
 }
-.login-page .auth-image img {
+
+.login-page .auth-image img,
+.register-page .auth-image img {
   max-width: 100%;
   height: auto;
   border-radius: 2rem;
   box-shadow: 0 8px 32px rgba(44,73,100,0.10);
 }
-.login-page .auth-form-area {
-   color: #2c4964;
+
+.login-page .auth-form-area,
+.register-page .auth-form-area {
+  color: #2c4964;
   flex: 1;
   background: #fff;
   display: flex;
@@ -880,7 +887,9 @@ h6 {
   border-bottom-right-radius: 2rem;
   box-shadow: 0 8px 32px rgba(44,73,100,0.05);
 }
-.login-page .auth-form {
+
+.login-page .auth-form,
+.register-page .auth-form {
   width: 100%;
   max-width: 350px;
   background: #fff;
@@ -894,12 +903,13 @@ h6 {
 #Logo_Text Styling
 --------------------------------------------------------------
 */
-/* Fix login page logo */
-
-.login-page .logo-row {
+.login-page .logo-row,
+.register-page .logo-row {
   gap: 2px !important;
 }
-.login-page .auth-logo {
+
+.login-page .auth-logo,
+.register-page .auth-logo {
   height: 56px !important;
   width: 56px !important;
   object-fit: contain;
@@ -907,16 +917,17 @@ h6 {
   padding: 0 !important;
   margin: 0 !important;
 }
-.login-page .auth-logo-text {
+
+.login-page .auth-logo-text,
+.register-page .auth-logo-text {
   font-weight: 900;
   font-size: 2.3rem;
   color: #2c4964;
-  line-height: 56px; /* Match the logo height for vertical alignment */
+  line-height: 56px;
   display: block;
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
-
 
 /*
 Admin-Dashboard Page Styling

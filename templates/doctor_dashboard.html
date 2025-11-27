@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr-dash</title>
+  <meta charset="UTF-8">
+  <title>Doctor Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    
+<body class="doctor_dashboard_page">
+  <div class="bg-overlay"></div>
+<nav class="navbar">
+  <div class="logo-title">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
+    <span class="nav-title">Doctor's Portal</span>
+  </div>
+  <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</nav>
+
+<main class="dashboard-main">
+  <!-- New big welcome heading -->
+  <h1 class="welcome-heading">Welcome, {{this_user.username}}</h1>
+
+  <section class="card appointments-card">
+    <h2>Upcoming Appointments</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <th>Patient Name</th>
+          <th>Patient History</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1001</td>
+          <td>Mr. Raj</td>
+          <td>
+           <a href="/update_patients_history" class="update-btn">Update</a>
+          </td>
+          <td>
+            <button class="complete-btn">Mark as Complete</button>
+            <button class="cancel-btn">Cancel</button>
+          </td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card patients-card">
+    <h2>Assigned Patients</h2>
+    <ul>
+      <li>
+        Mr. Rishit 
+        <a class="icon-history" href="{{ url_for('patient_history_from_dashboard') }}">View</a>
+      </li>
+      <li>
+        Miss. Priya <a class="icon-history" href="{{ url_for('patient_history_from_dashboard') }}">View</a>
+      </li>
+      <!-- Add more patients as needed -->
+    </ul>
+  </section>
+
+  
+</main>
+
+
+   
+  </main>
+   <!-- Add Footer -->
+  <footer class="footer">
+  <span class="footer-text">&copy; 2025 Medanchor Hospital Management System. All rights reserved.</span>
+
+  <a href="/doctor_availability" class="availability-btn">Provide Availability</a>
+</footer>
+
 </body>
+
 </html>

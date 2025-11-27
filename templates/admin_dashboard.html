@@ -1,11 +1,89 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>admin-dash</title>
+    <title>Admin-Dahboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}    ">
 </head>
-<body>
+<body class="admin_dashboard_page">
     
+
+<div class="dashboard">
+  <header>
+    <img src="static/img/logo.png" alt=" Logo" class="admin-logo" />
+    <h1>Welcome {{this_user.username}}!</h1>
+     <form class="search-bar">
+      <input type="text" placeholder="Search doctor, patient, dept...">
+      <button type="submit">Search</button>
+    </form>
+  </header>
+  <section class="card doctors">
+  <div class="section-row">
+    
+    <h2>Registered Doctors</h2>
+    <a class="create" href="{{ url_for('add_doctor') }}">create</a>
+    <!--<button class="create" href="{{url_for('static', filename='add_doctor')}}">create</button>-->
+  </div>
+  <div class="doctor-list">
+    {% for doctor in all_doctors%}
+    <div class="person-card">
+      <span>Dr. {doctor.full_name}</span>
+      <div class="button-row">
+        <button class="edit">edit</button>
+        <button class="delete">delete</button>
+        <button class="blacklist">blacklist</button>
+      </div>
+    </div>
+    {%else%}
+    <p>No doctors registered.</p>
+    {%endfor%}
+    
+  </div>
+</section>
+
+<section class="card patients">
+  <h2>Registered Patients</h2>
+  <div class="doctor-list">
+    {% for patient in all_patients %}
+    <div class="person-card">
+      <span>Mr. {patient.full_name}</span>
+      <div class="button-row">
+        <button class="edit">edit</button>
+        <button class="delete">delete</button>
+        <button class="blacklist">blacklist</button>
+      </div>
+    </div>
+    {%else%}
+    <p>No patients registered.</p>
+    {%endfor%}
+  </div>
+</section>
+
+  <!-- Repeat for Patients -->
+  <section class="card appointments">
+    <h2>Upcoming Appointments</h2>
+    <table>
+      <tr>
+        <th>Sr No.</th><th>Patient Name</th><th>Doctor Name</th><th>Department</th><th>Patient-History</th>
+      </tr>
+      {%for appointment in all_appointments%}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{appointment.patient.full_name}</td>
+        <td>{appointment.doctor.full_name}</td>
+        <td>{appointment.doctor.department.name}</td>
+          <td>
+        <a class="icon-history" href="{{ url_for('patient_history_from_appointments') }}">View</a>
+      </td>
+       
+      </tr>
+
+     
+      {% endfor %}
+    </table>
+  </section>
+</div>
 </body>
 </html>

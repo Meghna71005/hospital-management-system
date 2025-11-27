@@ -1,11 +1,27 @@
 from .database import db
+from werkzeug.security import generate_password_hash
 
+def create_default_admin():
+    # check if an admin already exists
+    existing = Admin.query.filter_by(username="Meghna").first()
+    if existing:
+        return
+    
+    admin = Admin(
+        username="Meghna",
+        password=generate_password_hash("Meghna@07"),  
+        type="admin"
+    )
+    db.session.add(admin)
+    db.session.commit()
+    
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
     type = db.Column(db.String(), nullable=False, default="admin")
-
+   
+    
 class Department(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=True, nullable=False)
@@ -34,7 +50,7 @@ class Patient(db.Model):
     password = db.Column(db.String(), nullable=False)
     type = db.Column(db.String(), nullable=False, default="patient")
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
-    contact = db.Column(db.String(),  unique=True,)
+    contact = db.Column(db.String(),  unique=True)
     full_name = db.Column(db.String())
 
     

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Patient History</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="update_patients_history_page">
+    <div class="bg-overlay_update"></div>
+  <section class="update-history-card">
+    <h2>Update Patient History</h2>
+    <div class="patient-info">
+      <span style="color: #0a4d8c ;"><strong>Patient Name:</strong> Mr. Raj</span>
+      <span style="color: #0a4d8c;"><strong>Department:</strong> Cardiology</span>
+    </div>
+    
+    <form class="update-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="visit-type">Visit Type</label>
+          <input type="text" id="visit-type" name="visit_type" required>
+        </div>
+        <div class="form-group">
+          <label for="test-done">Test Done</label>
+          <input type="text" id="test-done" name="test_done">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="diagnosis">Diagnosis</label>
+          <input type="text" id="diagnosis" name="diagnosis">
+        </div>
+        <div class="form-group">
+          <label for="prescription">Prescription</label>
+          <input type="text" id="prescription" name="prescription">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group medicines-block">
+          <label>Medicines</label>
+          <div class="medicine-list">
+            <div style="color: #0a4d8c;">Medicine 1 <input type="text" name="med1" placeholder="1-0-1"></div>
+            <div style="color: #0a4d8c;">Medicine 2 <input type="text" name="med2" placeholder="0-1-1"></div>
+            <div style="color: #0a4d8c;">Medicine 3 <input type="text" name="med3" placeholder="1-0-0"></div>
+          </div>
+        </div>
+      </div>
+    <div class="note">
+  <span>Review and update the fields relevant to this patient’s current visit.</span>
+  <button type="submit" class="save-btn">Save</button>
+</div>
+
+    </form>
+  </section>
+</body>
+</html>

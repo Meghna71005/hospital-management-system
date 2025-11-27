@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a new doctor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="add-doctor-page">
+  <div class="add-doctor-card">
+ 
+  <h2>Add a New Doctor</h2>
+<form class="doctor-form" action="/add_doctor" method="post">
+  <label for="fullname">
+    What is the doctor's full name?
+  </label>
+  <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter full name here" required>
+
+  <label for="specialization">
+    Which department or specialty do they belong to?
+  </label>
+  <input type="text" class="form-control" id="specialization" name="specialization" placeholder="e.g. Cardiology, Neurology" required>
+
+  <label for="experience">
+    How many years of experience does the doctor have?
+  </label>
+  <input type="text" class="form-control" id="experience" name="experience" placeholder="e.g. 5" required>
+  
+  
+  <button type="submit" class="create">Add Doctor</button>
+</form>
+
+  </div>
+</body>
+</html>
+
