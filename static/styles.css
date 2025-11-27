@@ -1198,6 +1198,7 @@ Admin-Dashboard Page Styling
   text-shadow: 0px 1px 0px #e7f6ff;
 }
 
+
 /* Form stack and labels */
 .add-doctor-page .doctor-form {
   display: flex;
@@ -1388,6 +1389,11 @@ Admin-Dashboard Page Styling
   min-height: 100vh;
   background: #eef3fa;
 }
+.doctor_dashboard_page .patients-card table td.text-right {
+  text-align: right;
+  margin-right: 25px;
+}
+
 
 /* Background image section */
 
@@ -1827,6 +1833,15 @@ Doctor Availability Page Styling
   font-size: 1.34em;
   margin-bottom: 22px;
 }
+.doctor-availability-page slot {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.doctor-availability-page slot.available { border: 1px solid green; color: green; }
+.doctor-availability-page slot.not-available { border: 1px solid red; color: red; }
+.doctor-availability-page slot input { margin-right: 6px; }
+
 
 .doctor-availability-page .availability-table {
   width: 100%;

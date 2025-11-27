@@ -90,7 +90,7 @@ def register() :
 
 @app.route("/logout")
 def logout():
-    session.pop('user_id')
+    session.clear()
     return redirect(url_for('login'))
 
 
@@ -105,8 +105,11 @@ def admin():
     all_doctors= Doctor.query.all()
     all_patients= Patient.query.all()
     today=date.today()
-    up_appoint=(Appointment.query.filter(Appointment.appointment_date >= today).order_by(Appointment.appointment_date, Appointment.appointment_time).all())
+    up_appoint=(Appointment.query.all())
+    print("up_appoint count:", len(up_appoint))
+
     return render_template("admin_dashboard.html",this_user=this_user, all_doctors=all_doctors, all_patients=all_patients, all_appointments=up_appoint)
+
 
 @app.route("/patient/<int:patient_id>")
 def patient(patient_id):
@@ -140,7 +143,7 @@ def add_doctor():
 
         # Create a new Doctor object
         new_doctor = Doctor(
-            username=fullname.lower().replace(" ", "_"),  # Simple username generation
+            username=fullname,  # Simple username generation
             password=generate_password_hash("doc123"),  
             full_name=fullname,
             specialization=specialization,
@@ -165,7 +168,24 @@ def patient_history_from_dashboard():
 
 @app.route("/patient_history_from_appointments")
 def patient_history_from_appointments():
-    return render_template("patient_history.html", back_url=url_for('admin'))  # Replace with your appointments endpoint
+    return render_template("patient_history.html", back_url=url_for('admin'))  
+
+@app.route("/patient_history_from_dr_dash/<int:patient_id>")
+def patient_history_from_dr_dash(patient_id):
+     this_user_id = session.get('user_id')
+     if this_user_id is None or session.get('user_type') != 'doctor':
+        return redirect(url_for('login'))
+     patient = Patient.query.get_or_404(patient_id)
+     all_appointments = (
+        Appointment.query
+        .filter_by(patient_id=patient_id)
+        .order_by(Appointment.appointment_date.desc())
+        .all()
+     )
+     
+     return render_template( "patient_history.html", back_url=url_for('doctor_dashboard', doctor_id=this_user_id),
+        this_user=patient,
+        all_appointments=all_appointments,)  # Replace with your appointments endpoint
 
 
 
@@ -173,13 +193,90 @@ def patient_history_from_appointments():
 def back_btn_admin():
     return render_template("admin_dashboard.html")
 
-@app.route("/update_patients_history")
-def update_patient_history():
-    return render_template("update_patients_history.html")
+@app.route("/update_patients_history/<int:appointment_id>", methods=["GET", "POST"])
+def update_patient_history(appointment_id):
+    if session.get('user_type') != 'doctor':
+        return redirect(url_for('login'))
 
-@app.route("/doctor_availability")
+    appt = Appointment.query.get_or_404(appointment_id)
+    treatment = appt.treatment  # may be None first time
+
+    if request.method == "POST":
+        visit_type = request.form.get("visit_type")
+        tests_done = request.form.get("test_done")
+        diagnosis = request.form.get("diagnosis")
+        prescription = request.form.get("prescription")
+
+        # Combine med1, med2, med3 into one string (simple approach)
+        med1 = request.form.get("med1")
+        med2 = request.form.get("med2")
+        med3 = request.form.get("med3")
+        medicines = ", ".join([m for m in [med1, med2, med3] if m])
+
+        if treatment is None:
+            treatment = Treatment(
+                appointment_id=appointment_id,
+                visit_type=visit_type,
+                tests_done=tests_done,
+                diagnosis=diagnosis,
+                prescription=prescription,
+                medicines=medicines,
+            )
+            db.session.add(treatment)
+        else:
+            treatment.visit_type = visit_type
+            treatment.tests_done = tests_done
+            treatment.diagnosis = diagnosis
+            treatment.prescription = prescription
+            treatment.medicines = medicines
+
+        db.session.commit()
+        return redirect(url_for("doctor_dashboard", doctor_id=appt.doctor_id))
+
+    return render_template(
+        "update_patients_history.html",
+        appointment=appt,
+        treatment=treatment,
+    )
+from datetime import date, timedelta
+
+from datetime import date, timedelta
+
+@app.route("/doctor_availability", methods=["GET", "POST"])
 def doctor_availability():
-    return render_template("doctor_availability.html")
+    if session.get('user_type') != 'doctor':
+        return redirect(url_for('login'))
+
+    doctor_id = session.get('user_id')
+
+    if request.method == "POST":
+        Availability.query.filter_by(doctor_id=doctor_id).delete()
+
+        for i in range(7):
+            d_str = request.form.get(f"date_{i}")
+            if not d_str:
+                continue
+            d = date.fromisoformat(d_str)
+            m = request.form.get(f"morning_{i}") == "on"
+            e = request.form.get(f"evening_{i}") == "on"
+            if m or e:
+                db.session.add(Availability(
+                    doctor_id=doctor_id,
+                    date=d,
+                    morning_available=m,
+                    evening_available=e
+                ))
+        db.session.commit()
+        return redirect(url_for("doctor_dashboard", doctor_id=doctor_id))
+
+    today = date.today()
+    days = [today + timedelta(days=i) for i in range(7)]
+    existing = Availability.query.filter_by(doctor_id=doctor_id).all()
+    by_date = {a.date: a for a in existing}
+
+    return render_template("doctor_availability.html",
+                           days=days,
+                           availability_by_date=by_date)
 
 @app.route("/dr_avail")
 def dr_avail():
@@ -193,5 +290,38 @@ def view_details():
 def dr_detail_card():
     return render_template("dr-detail-card.html")
 
+@app.route("/appointment/<int:appointment_id>/complete", methods=["POST"])
+def complete_appointment(appointment_id):
+    print("HIT complete_appointment:", appointment_id)
 
-    
+    if session.get('user_type') != 'doctor':
+        print(" -> not doctor, redirecting")
+        return redirect(url_for('login'))
+
+    appt = Appointment.query.get_or_404(appointment_id)
+    print(" -> appt doctor_id:", appt.doctor_id, "session doctor_id:", session.get('user_id'))
+
+    if appt.doctor_id != session.get('user_id'):
+        print(" -> doctor mismatch, NOT updating")
+        return redirect(url_for('login'))
+
+    appt.status = "Completed"
+    db.session.commit()
+    print(" -> saved status to:", appt.status)
+
+    return redirect(url_for("doctor_dashboard", doctor_id=appt.doctor_id))
+
+
+@app.route("/appointment/<int:appointment_id>/cancel", methods=["POST"])
+def cancel_appointment(appointment_id):
+    if session.get('user_type') != 'doctor':
+        return redirect(url_for('login'))
+
+    appt = Appointment.query.get_or_404(appointment_id)
+    if appt.doctor_id != session.get('user_id'):
+        return redirect(url_for('login'))
+
+    appt.status = "Cancelled"
+    db.session.commit()
+    return redirect(url_for("doctor_dashboard", doctor_id=appt.doctor_id))
+

@@ -29,7 +29,7 @@
   <div class="doctor-list">
     {% for doctor in all_doctors%}
     <div class="person-card">
-      <span>Dr. {doctor.full_name}</span>
+      <span>Dr. {{doctor.full_name}}</span>
       <div class="button-row">
         <button class="edit">edit</button>
         <button class="delete">delete</button>
@@ -48,7 +48,7 @@
   <div class="doctor-list">
     {% for patient in all_patients %}
     <div class="person-card">
-      <span>Mr. {patient.full_name}</span>
+      <span> {{patient.full_name}}</span>
       <div class="button-row">
         <button class="edit">edit</button>
         <button class="delete">delete</button>
@@ -71,16 +71,14 @@
       {%for appointment in all_appointments%}
       <tr>
         <td>{{loop.index}}</td>
-        <td>{appointment.patient.full_name}</td>
-        <td>{appointment.doctor.full_name}</td>
-        <td>{appointment.doctor.department.name}</td>
+        <td>{{appointment.patient.full_name}}</td>
+        <td>{{appointment.doctor.full_name}}</td>
+        <td>{{appointment.doctor.specialization}}</td>
           <td>
         <a class="icon-history" href="{{ url_for('patient_history_from_appointments') }}">View</a>
       </td>
        
       </tr>
-
-     
       {% endfor %}
     </table>
   </section>

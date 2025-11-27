@@ -10,11 +10,11 @@
   <section class="update-history-card">
     <h2>Update Patient History</h2>
     <div class="patient-info">
-      <span style="color: #0a4d8c ;"><strong>Patient Name:</strong> Mr. Raj</span>
-      <span style="color: #0a4d8c;"><strong>Department:</strong> Cardiology</span>
+      <span style="color: #0a4d8c ;"><strong>Patient Name:</strong> {{appointment.patient.full_name}}</span>
+      <span style="color: #0a4d8c;"><strong>Department:</strong> {{appointment.doctor.specialization}}</span>
     </div>
     
-    <form class="update-form">
+    <form class="update-form" action="{{ url_for('update_patient_history', appointment_id=appointment.id) }}" method="POST">
       <div class="form-row">
         <div class="form-group">
           <label for="visit-type">Visit Type</label>

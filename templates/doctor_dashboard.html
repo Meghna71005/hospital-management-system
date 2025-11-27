@@ -31,34 +31,45 @@
         </tr>
       </thead>
       <tbody>
+        {% for appointment in all_appointments %}
         <tr>
-          <td>1001</td>
-          <td>Mr. Raj</td>
+          <td>{{loop.index}}</td>
+          <td>{{appointment.patient.full_name}}</td>
           <td>
-           <a href="/update_patients_history" class="update-btn">Update</a>
+           <a href="{{ url_for('update_patient_history', appointment_id=appointment.id) }}" class="update-btn">Update</a>
           </td>
           <td>
-            <button class="complete-btn">Mark as Complete</button>
-            <button class="cancel-btn">Cancel</button>
-          </td>
+          <form method="POST" action="{{ url_for('complete_appointment', appointment_id=appointment.id) }}" style="display:inline;">
+            <button type="submit" class="complete-btn">Mark as Complete</button>
+          </form>
+          <form method="POST" action="{{ url_for('cancel_appointment', appointment_id=appointment.id) }}" style="display:inline;">
+            <button type="submit" class="cancel-btn">Cancel</button>
+          </form>
+        </td>
         </tr>
-        <!-- Add more rows as needed -->
+        {% endfor %}
+
       </tbody>
+
     </table>
   </section>
 
   <section class="card patients-card">
+    
     <h2>Assigned Patients</h2>
-    <ul>
-      <li>
-        Mr. Rishit 
-        <a class="icon-history" href="{{ url_for('patient_history_from_dashboard') }}">View</a>
-      </li>
-      <li>
-        Miss. Priya <a class="icon-history" href="{{ url_for('patient_history_from_dashboard') }}">View</a>
-      </li>
-      <!-- Add more patients as needed -->
-    </ul>
+    <table>
+    {%for patient in all_patients%}
+    <tbody>
+  <tr>
+    <td>{{ patient.full_name }}</td>
+    <td class="text-right">
+      <a class="icon-history" href="{{ url_for('patient_history_from_dr_dash',patient_id=patient.id) }}">View</a>
+    </td>
+  </tr>
+</tbody>
+
+    {%endfor%}
+  </table>
   </section>
 
   
@@ -67,7 +78,7 @@
 
    
   </main>
-   <!-- Add Footer -->
+
   <footer class="footer">
   <span class="footer-text">&copy; 2025 Medanchor Hospital Management System. All rights reserved.</span>
 

@@ -1,6 +1,7 @@
 from flask import Flask;
 from application.database import db
 from dotenv import load_dotenv
+
 import os
 app= None
 
@@ -18,12 +19,11 @@ def create_app():
 app = create_app()  
 from application import models
 from application.controllers import *        
-
+from application.models import create_default_admin
 
     
 if __name__=="__main__": # run ths app when invoked
     with app.app_context():
-         db.drop_all
          db.create_all()  # create database tables
          create_default_admin() 
     app.run()

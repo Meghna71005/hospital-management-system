@@ -35,11 +35,11 @@
     <tbody>
       <tr>
         <td>{{loop.index}}</td>
-        <td>{treat.visit_type if treat else '-'}</td>
-        <td>{treat.tests_done if treat else '-'}</td>
-        <td>{treat.diagnosis if treat else '-' }</td>
-        <td>{treat.prescription if treat else '-'}</td>
-        <td>{treact.medicines if treat else '-'}</td>
+        <td>{{treat.visit_type if treat else '-'}}</td>
+        <td>{{treat.tests_done if treat else '-'}}</td>
+        <td>{{treat.diagnosis if treat else '-' }}</td>
+        <td>{{treat.prescription if treat else '-'}}</td>
+        <td>{{treat.medicines if treat else '-'}}</td>
       </tr>
       
     </tbody>

@@ -60,7 +60,8 @@ class Appointment(db.Model):
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
     appointment_date = db.Column(db.Date, nullable=False)
-    appointment_time = db.Column(db.Time, nullable=False)
+    appointment_time_start = db.Column(db.Time, nullable=False)
+    appointment_time_end = db.Column(db.Time, nullable=False)
     status = db.Column(db.String(), nullable=False, default="Scheduled")
     treatment = db.relationship('Treatment', backref='appointment', uselist=False)
 
@@ -78,6 +79,7 @@ class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
-    slots = db.Column(db.String, nullable=False)   # or JSON, e.g. ["08-12", "04-09"]
+    morning_available = db.Column(db.Boolean, default=False)
+    evening_available = db.Column(db.Boolean, default=False)
 
     
