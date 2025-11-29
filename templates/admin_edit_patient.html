@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Patient</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="admin-page">
+  <div class="edit-card">
+    <h2>Edit Patient</h2>
+    <form method="POST" action="{{ url_for('admin_edit_patient', patient_id=patient.id) }}">
+      <label>Full name</label>
+      <input type="text" name="full_name" value="{{ patient.full_name or '' }}" required>
+
+      <label>Contact</label>
+      <input type="text" name="contact" value="{{ patient.contact or '' }}" required>
+
+      <button type="submit" class="admin-btn admin-btn-edit">Save</button>
+      <a href="{{ url_for('admin') }}" class="admin-btn">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

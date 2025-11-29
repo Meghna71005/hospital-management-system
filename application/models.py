@@ -40,9 +40,12 @@ class Doctor(db.Model):
     type = db.Column(db.String(), nullable=False, default="doctor")
     full_name = db.Column(db.String(), nullable=False)
     bio = db.Column(db.String())
+    doctor_qualifications = db.Column(db.String())
+    doctor_role = db.Column(db.String())
     appointments = db.relationship('Appointment', backref='doctor',lazy=True)
     availability = db.relationship("Availability", backref="doctor", lazy=True)
-        
+    photo_filename = db.Column(db.String()) 
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,6 +55,7 @@ class Patient(db.Model):
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
     contact = db.Column(db.String(),  unique=True)
     full_name = db.Column(db.String())
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
 
     
     

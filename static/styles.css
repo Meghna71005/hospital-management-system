@@ -950,6 +950,29 @@ Admin-Dashboard Page Styling
   box-shadow: 0 6px 36px rgba(0,0,0,0.09);
 }
 
+.admin_dashboard_page admin-btn {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 6px;
+  border: 1px solid #d0d5dd;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #f5f5f5;
+  color: #344054;
+  text-decoration: none;
+}
+
+.admin_dashboard_page admin-btn-edit {
+  background: #ffffff;
+  color: #1977cc;
+  border-color: #c7e2fe;
+}
+
+.admin_dashboard_page admin-btn-edit:hover {
+  background: #e6f1fd;
+}
+
+
 .admin_dashboard_page header {
   display: flex;
   align-items: center;
@@ -2395,16 +2418,16 @@ display: flex;
 
 /* Doctors List Box */
 .department-page .doctor-list-box {
-    background: #f6faff;
+  background: #fff;
   border-radius: 18px;
-  box-shadow: 0 5px 28px rgba(25,119,204,0.09);
-  padding: 38px 36px 32px 36px;   /* Increased padding for spacious look */
-  flex: 1.5;                      /* Increase flex from 1 to 1.5 for more width */
-  min-height: 350px;              /* Add min height to box */
+  box-shadow: 0 5px 28px rgba(25,119,204,0.14);
+  padding: 34px 30px 22px 30px;
+  flex: 0 0 auto;      /* don’t stretch, size to content */
+  min-height: auto;    /* or just remove this line */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
 }
+
 
 .department-page .dept-overview-box,
 .department-page .doctor-list-box {
@@ -2570,4 +2593,140 @@ display: flex;
     width: 72px;
     height: 72px;
   }
+}
+
+/*
+Edit doctor profile page styling
+--------------------------------------------------------------
+*/
+.doctor-edit-page .admin-edit-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px;
+  background: #f5f7fb;
+}
+
+.doctor-edit-page .admin-edit-card {
+  width: 100%;
+  max-width: 700px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+  padding: 28px 32px 26px 32px;
+}
+
+.doctor-edit-page .admin-edit-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #102a43;
+}
+
+.doctor-edit-page .admin-edit-subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.doctor-edit-page .admin-edit-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.doctor-edit-page .admin-edit-form .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doctor-edit-page .admin-edit-form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.doctor-edit-page .admin-edit-form input,
+.doctor-edit-page .admin-edit-form textarea {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 9px 11px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.doctor-edit-page .admin-edit-form input:focus,
+.doctor-edit-page .admin-edit-form textarea:focus {
+  border-color: #1977cc;
+  box-shadow: 0 0 0 1px rgba(25,119,204,0.18);
+}
+
+.doctor-edit-page .form-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.doctor-edit-page .admin-btn {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.doctor-edit-page .admin-btn-primary {
+  background: #1977cc;
+  color: #ffffff;
+  border-color: #1977cc;
+}
+
+.doctor-edit-page .admin-btn-primary:hover {
+  background: #155a9c;
+}
+
+.doctor-edit-page .admin-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.doctor-edit-page .admin-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+@media (max-width: 640px) {
+  .doctor-edit-page .admin-edit-card {
+    padding: 20px 18px;
+  }
+}
+/*--------------------------------------------------------------
+styling flash
+--------------------------------------------------------------*/
+.flash-container {
+  margin-bottom: 12px;
+}
+
+.flash-msg {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.flash-success {
+  background: #e7f7ec;
+  color: #166534;
+  border: 1px solid #bbf0c5;
+}
+
+.flash-error {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
 }

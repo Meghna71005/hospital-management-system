@@ -8,32 +8,60 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}    ">
 </head>
 <body class="admin_dashboard_page">
-    
 
 <div class="dashboard">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
   <header>
     <img src="static/img/logo.png" alt=" Logo" class="admin-logo" />
     <h1>Welcome {{this_user.username}}!</h1>
-     <form class="search-bar">
-      <input type="text" placeholder="Search doctor, patient, dept...">
-      <button type="submit">Search</button>
-    </form>
+    <form class="search-bar" method="GET" action="{{ url_for('search') }}">
+  <input type="text" name="q"
+         placeholder="Search doctor, patient, dept..."
+         value="{{ search_query or '' }}">
+        <button type="submit">Search</button>
+</form>
+
+   
+
   </header>
   <section class="card doctors">
   <div class="section-row">
     
     <h2>Registered Doctors</h2>
     <a class="create" href="{{ url_for('add_doctor') }}">create</a>
-    <!--<button class="create" href="{{url_for('static', filename='add_doctor')}}">create</button>-->
+    
   </div>
   <div class="doctor-list">
     {% for doctor in all_doctors%}
     <div class="person-card">
       <span>Dr. {{doctor.full_name}}</span>
-      <div class="button-row">
-        <button class="edit">edit</button>
-        <button class="delete">delete</button>
-        <button class="blacklist">blacklist</button>
+       <div class="button-row">
+       <button type="button"
+        class="edit"
+        onclick="window.location.href='{{ url_for('admin_edit_doctor', doctor_id=doctor.id) }}'">
+        Edit
+      </button>
+
+
+    <form method="POST"
+          action="{{ url_for('admin_cancel_doctor_future', doctor_id=doctor.id) }}"
+          style="display:inline;">
+      <button class="delete" type="submit">Cancel</button>
+    </form>
+
+    <form method="POST"
+          action="{{ url_for('admin_blacklist_doctor', doctor_id=doctor.id) }}"
+          style="display:inline;">
+      <button class="blacklist" type="submit">Blacklist</button>
+    </form>
       </div>
     </div>
     {%else%}
@@ -50,9 +78,24 @@
     <div class="person-card">
       <span> {{patient.full_name}}</span>
       <div class="button-row">
-        <button class="edit">edit</button>
-        <button class="delete">delete</button>
-        <button class="blacklist">blacklist</button>
+       <a href="{{ url_for('admin_edit_patient', patient_id=patient.id) }}">Edit</a>
+      <button type="button"
+        class="edit"
+        onclick="window.location.href='{{ url_for('admin_edit_patient', patient_id=patient.id) }}'">
+        Edit
+      </button>
+
+    <form method="POST"
+          action="{{ url_for('admin_cancel_patient_future', patient_id=patient.id) }}"
+          style="display:inline;">
+      <button class="delete" type="submit">Cancel</button>
+    </form>
+
+    <form method="POST"
+          action="{{ url_for('admin_blacklist_patient', patient_id=patient.id) }}"
+          style="display:inline;">
+      <button type="submit">Blacklist</button>
+    </form>
       </div>
     </div>
     {%else%}
@@ -75,7 +118,7 @@
         <td>{{appointment.doctor.full_name}}</td>
         <td>{{appointment.doctor.specialization}}</td>
           <td>
-        <a class="icon-history" href="{{ url_for('patient_history_from_appointments') }}">View</a>
+        <a class="icon-history" href="{{ url_for('patient_history_from_appointments', patient_id=appointment.patient.id) }}">View</a>
       </td>
        
       </tr>

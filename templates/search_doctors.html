@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Dooctors, Patients & Departments</title>
+</head>
+<body>
+    {% if doctors is defined or patients is defined %}
+  <h3>Search Results</h3>
+
+  {% if doctors %}
+    <h4>Doctors</h4>
+    {% for doctor in doctors %}
+      <div class="doctor-row">
+        Dr. {{ doctor.full_name }} ({{ doctor.department.name }})
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if patients %}
+    <h4>Patients</h4>
+    {% for p in patients %}
+      <div class="patient-row">
+        {{ p.full_name or p.username }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if not doctors and not patients and search_query %}
+    <p>No results found.</p>
+  {% endif %}
+{% endif %}
+
+</body>
+</html>
