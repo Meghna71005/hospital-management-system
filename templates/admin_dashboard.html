@@ -27,6 +27,9 @@
          placeholder="Search doctor, patient, dept..."
          value="{{ search_query or '' }}">
         <button type="submit">Search</button>
+        
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+
 </form>
 
    

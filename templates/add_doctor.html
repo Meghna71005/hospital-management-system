@@ -16,17 +16,15 @@
   </label>
   <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter full name here" required>
 
-  <label for="specialization">
-    Which department or specialty do they belong to?
-  </label>
-  <select class="form-control" id="specialization" name="specialization" required>
-    <option value="" disabled selected>Select a department</option>
-    {% for dept in all_departments %}
-    <option value="{{ dept.id }}">{{ dept.name }}</option>
-    {% endfor %}
-  </select>
-  <input type="text" class="form-control" id="specialization" name="specialization" placeholder="e.g. Cardiology, Neurology" required>
-
+ <label for="specialization">
+        Which department or specialty do they belong to?
+      </label>
+      <select class="form-control" id="specialization" name="specialization" required>
+        <option value="" disabled selected>Select a department</option>
+        {% for dept in all_departments %}
+        <option value="{{ dept.id }}">{{ dept.name }}</option>
+        {% endfor %}
+      </select>
   <label for="experience">
     How many years of experience does the doctor have?
   </label>

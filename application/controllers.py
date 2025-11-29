@@ -1,3 +1,4 @@
+from time import time
 from flask import Flask, render_template, url_for, redirect, request, flash, session
 from flask import current_app as app
 from .models import *
@@ -174,7 +175,10 @@ def add_doctor():
         db.session.commit()
 
         return redirect(url_for('admin'))
-    return render_template("add_doctor.html")
+    
+    all_departments = Department.query.all()
+    return render_template("add_doctor.html", all_departments=all_departments)
+
 
 @app.route("/patient_history_from_dashboard")
 def patient_history_from_dashboard():
@@ -553,3 +557,94 @@ def admin_blacklist_patient(patient_id):
     patient.is_active = False
     db.session.commit()
     return redirect(url_for('admin'))
+
+@app.route("/book/<int:doctor_id>")
+def book_page(doctor_id):
+    # only patients can book
+    if session.get('user_type') != 'patient':
+        return redirect(url_for('login'))
+
+    doctor = Doctor.query.get_or_404(doctor_id)
+
+    today = date.today()
+    days = [today + timedelta(days=i) for i in range(7)]
+    existing = Availability.query.filter_by(doctor_id=doctor_id).all()
+    by_date = {a.date: a for a in existing}
+
+    return render_template(
+        "book_doctor.html",
+        doctor=doctor,
+        days=days,
+        availability_by_date=by_date
+    )
+    
+from sqlalchemy import and_
+from datetime import time
+
+@app.route("/book/<int:doctor_id>", methods=["POST"])
+def book_appointment(doctor_id):
+    if session.get('user_type') != 'patient':
+        return redirect(url_for('login'))
+
+    patient_id = session.get('user_id')
+    doctor = Doctor.query.get_or_404(doctor_id)
+
+    slot_value = request.form.get("slot")
+    if not slot_value:
+        flash("Please select a date and time slot.", "error")
+        return redirect(url_for('book_page', doctor_id=doctor_id))
+
+    date_str, slot_part = slot_value.split("|", 1)
+    appt_date = date.fromisoformat(date_str)
+
+    if slot_part == "morning":
+        appt_start = time(8, 0)
+        appt_end = time(12, 0)
+    else:
+        appt_start = time(16, 0)
+        appt_end = time(21, 0)
+
+    # 1. Check doctor availability table again (defensive)
+    avail = Availability.query.filter_by(
+        doctor_id=doctor_id,
+        date=appt_date
+    ).first()
+    if not avail or (
+        slot_part == "morning" and not avail.morning_available
+    ) or (
+        slot_part == "evening" and not avail.evening_available
+    ):
+        flash("Selected slot is no longer available.", "error")
+        return redirect(url_for('book_page', doctor_id=doctor_id))
+
+    # 2. Prevent double booking: check for overlapping Scheduled appointment
+    conflict = (
+        Appointment.query
+        .filter_by(doctor_id=doctor_id,
+                   appointment_date=appt_date,
+                   status="Scheduled")
+        .filter(
+            Appointment.appointment_time_start < appt_end,
+            Appointment.appointment_time_end   > appt_start
+        )
+        .first()
+    )
+
+    if conflict:
+        flash("This doctor already has an appointment in that time slot.", "error")
+        return redirect(url_for('book_page', doctor_id=doctor_id))
+
+    # 3. Create appointment
+    new_appt = Appointment(
+        patient_id=patient_id,
+        doctor_id=doctor_id,
+        appointment_date=appt_date,
+        appointment_time_start=appt_start,
+        appointment_time_end=appt_end,
+        status="Scheduled"
+    )
+    db.session.add(new_appt)
+    db.session.commit()
+
+    flash("Appointment booked successfully.", "success")
+    return redirect(url_for('patient', patient_id=patient_id))

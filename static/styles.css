@@ -972,6 +972,20 @@ Admin-Dashboard Page Styling
   background: #e6f1fd;
 }
 
+.admin_dashboard_page .logout-btn {
+  padding: 6px 16px;
+  border-radius: 16px;
+  border: 1px solid #fca5a5;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin_dashboard_page .logout-btn:hover {
+  background: #fecaca;
+}
 
 .admin_dashboard_page header {
   display: flex;
@@ -1248,6 +1262,57 @@ Admin-Dashboard Page Styling
   font-weight: 500;
   color: #2d70a4;
 }
+
+
+
+/* Dropdown */
+.add-doctor-page #specialization {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.96rem;
+ background-color: #f8fbff;
+  color: #1669a6;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  /* custom arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #6b7280 50%),
+    linear-gradient(135deg, #6b7280 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(50% - 3px),
+    calc(100% - 14px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Hover + focus to match text inputs */
+.add-doctor-page #specialization:hover {
+  border-color: #9ca3af;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+}
+
+.add-doctor-page #specialization:focus {
+  border-color: #1977cc;
+  box-shadow:
+    0 0 0 1px rgba(25,119,204,0.25),
+    inset 0 1px 2px rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+}
+
+/* Placeholder option */
+.add-doctor-page #specialization option[disabled][selected] {
+  color: #9ca3af;
+}
+
+
 
 /* Button: modern pill style */
 .add-doctor-page .create {
@@ -2729,4 +2794,113 @@ styling flash
   background: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fecaca;
+}
+/*--------------------------------------------------------------
+Appointment booking by patient page styling
+--------------------------------------------------------------*/
+.patient-book-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px;
+}
+
+.patient-book-page .book-card {
+  width: 100%;
+  max-width: 820px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+  padding: 24px 28px 22px 28px;
+}
+
+.patient-book-page .book-card h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.5rem;
+  color: #102a43;
+}
+
+.patient-book-page .availability-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.patient-book-page .availability-table th,
+.patient-book-page .availability-table td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.patient-book-page .availability-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.patient-book-page .availability-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: #1f2933;
+}
+
+.patient-book-page .slot-disabled {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.patient-book-page .form-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.patient-book-page .primary-btn,
+.patient-book-page .secondary-btn {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.patient-book-page .primary-btn {
+  background: #1977cc;
+  color: #ffffff;
+  border-color: #1977cc;
+}
+
+.patient-book-page .primary-btn:hover {
+  background: #155a9c;
+}
+
+.patient-book-page .secondary-btn {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.patient-book-page .secondary-btn:hover {
+  background: #e5e7eb;
+}
+
+@media (max-width: 640px) {
+  .patient-book-page .book-card {
+    padding: 18px 16px;
+  }
+
+  .patient-book-page .availability-table th,
+  .patient-book-page .availability-table td {
+    font-size: 0.85rem;
+    padding: 8px 4px;
+  }
 }

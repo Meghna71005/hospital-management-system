@@ -38,7 +38,7 @@
      {%for doctor in doctors%}
     <div class="doctor-row">
       <input type="text" readonly value="Dr. {{doctor.full_name}}" class="doctor-input">
-      <a href="{{ url_for('dr_avail') }}" class="doctor-btn avail-btn">check availability</a>
+      <a href="{{ url_for('book_page', doctor_id=doctor.id) }}" class="doctor-btn avail-btn">check availability</a>
       <a href="{{ url_for('dr_detail_card', doctor_id=doctor.id, dept_id=department.id) }}" class="doctor-btn detail-btn">view details</a>
 
     </div>

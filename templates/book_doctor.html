@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Appointment</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="patient-book-page">
+  <div class="book-card">
+    <h2>Book appointment with Dr. {{ doctor.full_name }}</h2>
+
+    <form method="POST"
+          action="{{ url_for('book_appointment', doctor_id=doctor.id) }}">
+      <table class="availability-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Morning (08:00–12:00)</th>
+            <th>Evening (16:00–21:00)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in days %}
+          {% set av = availability_by_date.get(d) %}
+          <tr>
+            <td>{{ d.strftime('%a, %d %b %Y') }}</td>
+            <td>
+              {% if av and av.morning_available %}
+              <label>
+                <input type="radio" name="slot"
+                       value="{{ d.isoformat() }}|morning">
+                Book
+              </label>
+              {% else %}
+              <span class="slot-disabled">Not available</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if av and av.evening_available %}
+              <label>
+                <input type="radio" name="slot"
+                       value="{{ d.isoformat() }}|evening">
+                Book
+              </label>
+              {% else %}
+              <span class="slot-disabled">Not available</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="form-actions">
+        <button type="submit" class="primary-btn">Confirm booking</button>
+        <a href="{{ url_for('patient', patient_id=session['user_id']) }}"
+           class="secondary-btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
